@@ -40,6 +40,8 @@ spec:
               env:
                 - name: MASTER_NUMBER
                   value: '0'
+                - name: PYTHONWARNINGS
+                  value: 'ignore:Unverified HTTPS request'                  
               envFrom:
                 - secretRef:
                     name: s3-data
@@ -103,6 +105,8 @@ spec:
               env:
                 - name: MASTER_NUMBER
                   value: '1'
+                - name: PYTHONWARNINGS
+                  value: 'ignore:Unverified HTTPS request'                  
               envFrom:
                 - secretRef:
                     name: s3-data                      
@@ -165,6 +169,8 @@ spec:
               env:
                 - name: MASTER_NUMBER
                   value: '2'
+                - name: PYTHONWARNINGS
+                  value: 'ignore:Unverified HTTPS request'                  
               envFrom:
                 - secretRef:
                     name: s3-data                  
