@@ -1,0 +1,187 @@
+kind: CronJob
+apiVersion: batch/v1beta1
+metadata:
+  name: openshift-backup-master-0
+  namespace: etcd-backup
+  labels:
+    app: openshift-backup-master-0
+spec:
+  schedule: 0 6 * * *
+  concurrencyPolicy: Forbid
+  suspend: false
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: openshift-backup-master-0
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: openshift-backup-master-0
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: <CHANGE ME>
+          restartPolicy: Never
+          activeDeadlineSeconds: 500
+          serviceAccountName: openshift-backup
+          hostPID: true
+          schedulerName: default-scheduler
+          hostNetwork: true
+          terminationGracePeriodSeconds: 30
+          securityContext:
+            runAsUser: 0
+          containers:
+            - name: backup
+              image: >-
+                image-registry.openshift-image-registry.svc:5000/etcd-backup/openshift-etcd-backup:latest
+              env:
+                - name: MASTER_NUMBER
+                  value: '0'
+              envFrom:
+                - secretRef:
+                    name: s3-data
+              resources: {}
+              volumeMounts:
+                - name: host
+                  mountPath: /host
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: Always
+          serviceAccount: openshift-backup
+          volumes:
+            - name: host
+              hostPath:
+                path: /
+                type: Directory
+          dnsPolicy: ClusterFirst
+          tolerations:
+            - key: node-role.kubernetes.io/master
+              effect: NoSchedule
+---
+kind: CronJob
+apiVersion: batch/v1beta1
+metadata:
+  name: openshift-backup-master-1
+  namespace: etcd-backup
+  labels:
+    app: openshift-backup-master-1
+spec:
+  schedule: 0 6 * * *
+  concurrencyPolicy: Forbid
+  suspend: false
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: openshift-backup-master-1
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: openshift-backup-master-1
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: <CHANGE ME>
+          restartPolicy: Never
+          activeDeadlineSeconds: 500
+          serviceAccountName: openshift-backup
+          hostPID: true
+          schedulerName: default-scheduler
+          hostNetwork: true
+          terminationGracePeriodSeconds: 30
+          securityContext:
+            runAsUser: 0
+          containers:
+            - name: backup
+              image: >-
+                image-registry.openshift-image-registry.svc:5000/etcd-backup/openshift-etcd-backup:latest
+              env:
+                - name: MASTER_NUMBER
+                  value: '1'
+              envFrom:
+                - secretRef:
+                    name: s3-data                      
+              resources: {}
+              volumeMounts:
+                - name: host
+                  mountPath: /host
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: Always
+          serviceAccount: openshift-backup
+          volumes:
+            - name: host
+              hostPath:
+                path: /
+                type: Directory
+          dnsPolicy: ClusterFirst
+          tolerations:
+            - key: node-role.kubernetes.io/master
+              effect: NoSchedule
+kind: CronJob
+apiVersion: batch/v1beta1
+metadata:
+  name: openshift-backup-master-2
+  namespace: etcd-backup
+  labels:
+    app: openshift-backup-master-2
+spec:
+  schedule: 0 6 * * *
+  concurrencyPolicy: Forbid
+  suspend: false
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: openshift-backup-master-2
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: openshift-backup-master-2
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: <CHANGE ME>
+          restartPolicy: Never
+          activeDeadlineSeconds: 500
+          serviceAccountName: openshift-backup
+          hostPID: true
+          schedulerName: default-scheduler
+          hostNetwork: true
+          terminationGracePeriodSeconds: 30
+          securityContext:
+            runAsUser: 0
+          containers:
+            - name: backup
+              image: >-
+                image-registry.openshift-image-registry.svc:5000/etcd-backup/openshift-etcd-backup:latest
+              env:
+                - name: MASTER_NUMBER
+                  value: '2'
+              envFrom:
+                - secretRef:
+                    name: s3-data                  
+              resources: {}
+              volumeMounts:
+                - name: host
+                  mountPath: /host
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: Always
+          serviceAccount: openshift-backup
+          volumes:
+            - name: host
+              hostPath:
+                path: /
+                type: Directory
+          dnsPolicy: ClusterFirst
+          tolerations:
+            - key: node-role.kubernetes.io/master
+              effect: NoSchedule                            

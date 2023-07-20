@@ -1,0 +1,12 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: openshift-etcd-backup
+  namespace: etcd-backup
+  uid: 20a3a48f-4d66-43d1-8324-34e467fb623e
+  resourceVersion: '3856181'
+  generation: 1
+  creationTimestamp: '2022-08-22T12:54:37Z'
+spec:
+  lookupPolicy:
+    local: false
